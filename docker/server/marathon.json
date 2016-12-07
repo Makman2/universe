@@ -8,7 +8,8 @@
     "type": "DOCKER",
     "docker": {
       "network": "BRIDGE",
-      "image": "mesosphere/universe-server:$tag",
+      "image": "makman2/universe-server:flink-dev",
+      "forcePullImage": true,
       "portMappings": [
         {
           "containerPort": 80,

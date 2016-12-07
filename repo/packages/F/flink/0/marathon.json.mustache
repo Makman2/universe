@@ -1,16 +1,13 @@
 {
   "id": "{{service.name}}",
-  "cpus": {{service.cpus}},
-  "mem": {{service.mem}},
+  "cpus": {{service.appmaster_cpus}},
+  "mem": {{service.appmaster_memory}},
 
   "env": {
-    "DCOS_SERVICE_NAME": "{{service.name}}",
-    "_CLIENT_TM_COUNT": "{{service.taskmanagers}}",
-    "_CLIENT_TM_MEMORY": "{{service.taskmanager_memory}}",
-    "_SLOTS": "{{service.slots}}",
-    "_CLIENT_USERNAME": "{{service.user}}",
-    "_CLIENT_USERNAME": "{{service.session_id}}"
+    "DCOS_SERVICE_NAME": "{{service.name}}"
   },
+
+  "cmd": "cd \"$MESOS_SANDBOX\" && \"$FLINK_HOME/bin/mesos-appmaster.sh\" -Djobmanager.web.port=$PORT0 -Dmesos.initial-tasks={{service.taskmanagers}} -Dmesos.resourcemanager.tasks.mem={{service.taskmanager_memory}} -Dtaskmanager.memory.preallocate={{service.taskmanager_memory_preallocate}} -Dtaskmanager.numberOfTaskSlots={{service.slots}} -Dparallelism.default={{service.parallelism_default}}",
 
   "container": {
     "type": "DOCKER",
@@ -20,11 +17,13 @@
     }
   },
 
+  "ports": [0],
+
   "healthChecks": [
     {
       "protocol": "HTTP",
       "path": "/",
-      "port": 8081,
+      "portIndex": 0,
       "gracePeriodSeconds": 5,
       "intervalSeconds": 60,
       "timeoutSeconds": 10,
