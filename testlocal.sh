@@ -1,9 +1,9 @@
 set -e
 
-cp ../dcos-flink/marathon.json.mustache repo/packages/F/flink/0/
-cp ../dcos-flink/package.json repo/packages/F/flink/0/
-cp ../dcos-flink/resource.json repo/packages/F/flink/0/
-cp ../dcos-flink/config.json repo/packages/F/flink/0/
+cp ../dcos-flink-service/service/marathon.json.mustache repo/packages/F/flink/0/
+cp ../dcos-flink-service/service/package.json repo/packages/F/flink/0/
+cp ../dcos-flink-service/service/resource.json repo/packages/F/flink/0/
+cp ../dcos-flink-service/service/config.json repo/packages/F/flink/0/
 scripts/build.sh
 DOCKER_TAG=flink docker/server/build.bash
 docker tag mesosphere/universe-server:flink makman2/universe-server:flink-dev
